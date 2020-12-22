@@ -52,7 +52,6 @@ class PhoneCommon(models.AbstractModel):
             end_number_to_match = presented_number
 
         sorted_phonemodels = self._get_phone_models()
-        print('sorted_phonemodels==================',sorted_phonemodels)
         for obj_dict in sorted_phonemodels:
             obj = obj_dict['object']
             pg_search_number = '%' + end_number_to_match
@@ -66,11 +65,9 @@ class PhoneCommon(models.AbstractModel):
                 sql_where.append("replace(%s, ' ', '') ilike %%s" % field)
                 sql_args.append(pg_search_number)
             sql = sql + ' or '.join(sql_where)
-            print('SQL-----------------',sql, sql_args,sql_where)
             _logger.debug("get_record_from_phone_number sql=%s", sql)
             self._cr.execute(sql, tuple(sql_args))
             res_sql = self._cr.fetchall()
-            print('res_sql------------------',res_sql)
             if len(res_sql) > 1:
                 res_ids = [x[0] for x in res_sql]
                 _logger.warning(
@@ -80,11 +77,8 @@ class PhoneCommon(models.AbstractModel):
             if res_sql:
                 obj_id = res_sql[0][0]
                 res_obj = obj.browse(obj_id)
-                print('RES OBJ+_--------------',res_obj)
                 name = res_obj.display_name
-                print('Name-------------',name, obj._name, res_obj)
                 res = (obj._name, res_obj.id, name)
-                print('RES-------------',res)
                 _logger.debug(
                     u"Answer get_record_from_phone_number: (%s, %d, %s)",
                     res[0], res[1], res[2])

@@ -63,7 +63,7 @@ class ReformatAllPhonenumbers(models.TransientModel):
             'state': 'done',
             })
         logger.info('End of the phone number reformatting wizard')
-        action = self.env['ir.actions.act_window'].for_xml_id(
+        action = self.env['ir.actions.act_window']._for_xml_id(
             'base_phone', 'reformat_all_phonenumbers_action')
         action['res_id'] = self.id
         return action

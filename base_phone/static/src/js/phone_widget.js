@@ -53,7 +53,6 @@ odoo.define('base_phone.updatedphone_widget', function (require) {
         },
         click2dial: function(phone_num) {
             var self = this;
-            console.log("selffffffffff", self)
             this.do_notify(
                 _.str.sprintf(_t('Click2dial to %s'), phone_num),
                 _t('Unhook your ringing phone'),
